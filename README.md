@@ -1,4 +1,4 @@
-⭐ Reflection Logger 4.0
+⭐ Reflection Logger 4.0 (password: peasypassword)
 
 Encrypted Personal Journaling Application (Windows, Closed Source)
 © 2025 Soroush Sharifi – All Rights Reserved
