@@ -1,21 +1,23 @@
-⭐ Reflection Logger 4.0 (password: peasypassword)
+⭐ Reflection Logger 5.0
+
+(password: peasypassword)
 
 Encrypted Personal Journaling Application (Windows, Closed Source)
 © 2025 Soroush Sharifi – All Rights Reserved
 
 📌 Overview
 
-Reflection Logger 4.0 is a private, encrypted journaling and reflection tool for Windows.
+Reflection Logger 5.0 is a private, password-protected, encrypted journaling and reflection tool for Windows.
 It is designed for personal use and is not open-source.
-Your reflections are securely stored using password-based encryption.
+Your reflections are securely stored using strong password-based encryption.
 
-This project is distributed as a Windows installer (.exe) for personal use or sharing.
+This project is distributed as a Windows installer (.exe) for personal use or sharing with trusted people.
 
 🛡️ Key Features
 
-✔ Password-based encryption (Fernet)
+✔ Password-based encryption using Fernet (AES + HMAC)
+✔ Encrypted image attachments (full encryption, not just metadata)
 ✔ Create, edit, and view reflections
-✔ Image attachments + built-in slideshow viewer
 ✔ Tags, search, and filtering
 ✔ Pinned reflections for quick access
 ✔ Rich-text formatting (bold, italic, underline)
@@ -25,67 +27,108 @@ This project is distributed as a Windows installer (.exe) for personal use or sh
 ✔ Auto-lock on inactivity (configurable)
 ✔ Word & character counter
 ✔ Export all reflections to PDF
-✔ Daily reminder if no reflection is written
+✔ Daily “write a reflection” reminder
 ✔ Backup & Restore database
 ✔ Windows installer support (Inno Setup)
 
+🔐 Security (Updated)
+
+Reflection Logger protects your data using multiple layers of security:
+
+🔒 Text Encryption
+
+Reflections are encrypted using Fernet (AES-128 in CBC mode with HMAC SHA-256).
+
+A secure key is derived from your password using PBKDF2-HMAC-SHA256 (200,000 iterations).
+
+Your password itself is never stored; only a SHA-256 hash is saved for verification.
+
+🖼️ Image Encryption (NEW)
+
+Attached images are now fully encrypted, not stored as plain files.
+
+For each attached image:
+
+The image is loaded from disk
+
+iPhone EXIF rotation is automatically corrected
+
+The image is resized (max 1024px) to reduce storage size
+
+It is converted internally to PNG
+
+The PNG bytes are then encrypted using the same Fernet key
+
+The encrypted blob is stored directly inside your SQLite database
+
+No unencrypted copies are saved.
+
+When viewing attachments, the app decrypts and renders them on demand.
+
+🔐 Auto-Lock
+
+If no keyboard or mouse activity is detected, the app automatically locks based on your chosen timeout.
+
+🖼️ Attachments
+
+You can attach images to any reflection.
+
+Reflection Logger automatically:
+
+Fixes iPhone / smartphone EXIF rotation
+
+Shrinks large images to a reasonable size
+
+Fully encrypts them before storage
+
+Shows thumbnails inside the preview pane
+
+Displays a 📷 icon in the list for reflections with attachments
+
+Provides a slideshow / image viewer via the magnifier icon
+
+Attachments remain tied to their encrypted reflection entry.
+
 📦 Installation
 
-Download the latest installer from the Releases section.
+Download the latest installer from the Releases section on GitHub.
 
 Run the installer (ReflectionLoggerSetup.exe).
 
 Follow the on-screen instructions.
 
-Launch Reflection Logger 4.0 from your Start Menu or Desktop.
+Launch Reflection Logger from your Start Menu or optional Desktop icon.
 
-The app will automatically select the correct installation path for your system.
+On first launch, the app will ask for a password.
+You may change this password later from within the app.
 
-When you open the app for the first time after installation, it will ask for a password, which you can later change once you open the app. The password is: peasypassword
-
-🔐 Security
-
-Reflections are encrypted using a key derived from your password.
-
-Password verification is based on SHA-256 hashing.
-
-Images are stored locally and linked to encrypted entries.
-
-Auto-lock protects your data during inactivity.
-
-🖼️ Attachments
-
-You can attach images to any reflection.
-The app automatically:
-
-Corrects iPhone EXIF rotation
-
-Shrinks extremely large images
-
-Displays thumbnails + a slideshow viewer
-
-Shows a 📷 icon in the list for reflections with attachments
+Default password: peasypassword
 
 ⚙️ Preferences
 
-Accessible under Settings → Preferences
+Available under Settings → Preferences:
 
 Base font size
 
 Auto-lock timeout (0 = disabled)
 
-Settings persist across app launches.
+Dark Mode
+
+Spell-check toggle
+
+All settings persist across restarts.
 
 📂 Database
 
-All user data is stored in:
+All journal data is stored in:
 
 reflection_logger.db
 
 
-Attachments are stored in a subfolder next to the DB.
+Attachments are stored as encrypted blobs inside the database.
+(Older versions used a folder; this version encrypts inside the DB.)
 
-You may create backups or restore from an existing database using the app’s built-in tools.
+You can create backups or restore a previous database using the app’s built-in tools.
 
 💻 System Requirements
 
@@ -93,16 +136,4 @@ Windows 10 or Windows 11
 
 ARM64 or x64 CPU
 
-No additional installations required (PyInstaller bundle included)
-
-📣 License
-
-This is NOT an open-source project.
-All rights reserved.
-
-Copyright © 2025 Soroush Sharifi
-You may not copy, modify, redistribute, or use this code or application commercially without explicit permission.
-
-🤝 Contact
-
-For personal inquiries or issues, please contact the author directly.
+No Python or dependencies required (PyInstaller bundle)
