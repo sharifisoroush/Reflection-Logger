@@ -1,6 +1,6 @@
 ⭐ Reflection Logger 5.0
 
-(password: peasypassword)
+(password: peasypassword and if that doesn't work then: easypassword)
 
 Encrypted Personal Journaling Application (Windows, Closed Source)
 © 2025 Soroush Sharifi – All Rights Reserved
